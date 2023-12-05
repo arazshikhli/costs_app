@@ -15,11 +15,17 @@ export class JwtGuard implements CanActivate {
   ): boolean|Promise<boolean> |Observable<boolean>{
     const request = context.switchToHttp().getRequest();
 
-    const token=request.headers.authorization.split('')[1];
+    const token=request.headers.authorization.split(' ')[1];
 
     if(!token){
         throw new UnauthorizedException('Ошибка авторизации')
     }
-    
+    const validToken=this.authService.verifyToken(token)
+
+    if(validToken?.error){
+        throw new UnauthorizedException(validToken.error)
+
+    }
+    return (request.token=token)
   }
 }

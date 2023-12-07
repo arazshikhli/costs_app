@@ -22,7 +22,9 @@ export class AuthService {
 
     async generateAccessToken(user: User) {
         return {
-            access_token: this.jwtService.sign({ user })
+            access_token: this.jwtService.sign({ user }, {
+                secret: jwtConstans.secret, expiresIn: '1h'
+            })
         }
     }
     async generateRefreshToken(userId: string) {
@@ -43,7 +45,7 @@ export class AuthService {
     parseJwt(token: string) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
 

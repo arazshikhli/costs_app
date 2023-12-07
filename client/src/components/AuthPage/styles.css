@@ -1,0 +1,20 @@
+.auth-label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.question-tex {
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.link {
+    margin-left: 10px;
+    color: blanchedalmond;
+    transition: all 0.7s;
+}
+
+.link:hover {
+    text-decoration: none;
+}

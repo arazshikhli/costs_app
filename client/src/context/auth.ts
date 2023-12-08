@@ -1,14 +1,7 @@
-import {createEvent,
-    createDomain,
-    createEffect,
-    combine,
-    sample, 
-    createStore} from 'effector'
-
+import {createDomain} from 'effector';
 
 const auth=createDomain()
-const setAuth=auth.createEvent<boolean>()
-export const $auth=auth.createStore<boolean>(false)
-.on(setAuth,(_,value)=>value );
+export const setAuth=auth.createEvent<boolean>()
 
-
+export const $auth=auth.createStore<boolean>(false).
+on(setAuth,(_, value)=>value)

@@ -1,9 +1,9 @@
-import {IAlertProps} from '../../types/types';
-import './styles.css'
-export const Alert=({props}:IAlertProps)=>{
-    return(
-        <div 
-        className={`alert alert-wrapper alert ${props.alertStatus}`}
+import { IAlertProps } from '../../types/types';
+import './style.css'
+export const Alert = ({ props }: IAlertProps) => {
+    return (
+        <div
+            className={`alert alert-wrapper alert ${props.alertStatus}`}
         >{props.alertText}</div>
     )
 }

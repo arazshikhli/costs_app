@@ -1,16 +1,32 @@
 import { Link } from 'react-router-dom'
 import './styles.css';
-import axios from 'axios';
-import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useRef, MutableRefObject } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { AuthClient } from '../../Api/authClient';
 import { Alert } from '../Alert/Alert'
 import { IAlert } from '../../types/types';
 import { Spinner } from '../Spinner/Spinner';
+import { handleAlertMessage } from '../../utils/auth';
+
 export const Authpage = ({ type }: { type: 'login' | 'registration' }) => {
 
+    const currentAuthTitle = type === 'login' ? 'Авторизация' : 'Регистрация'
+
+    const handleAuthResponse = (result: boolean | undefined,
+        navigatePath: string | undefined,
+        alertText: string
+    ) => {
+        if (!result) {
+            setSpinner(false)
+            return
+        }
+        usernameRef.current.value = ''
+        passwordRef.current.value = ''
+        setSpinner(false)
+        navigate(`/${navigatePath}`)
+        handleAlertMessage({ alertText, alertStatus: 'success' })
+        // setAlert({ alertText: `${alertText}`, alertStatus: 'success' });
+    }
     const navigate = useNavigate()
 
     const [spinner, setSpinner] = useState(false)
@@ -20,31 +36,53 @@ export const Authpage = ({ type }: { type: 'login' | 'registration' }) => {
 
 
     const handleLogin = async (username: string, password: string) => {
-        if (!username || !password) { return }
+        if (!username || !password) {
+            setSpinner(false)
+            handleAlertMessage({
+                alertStatus: 'warning',
+                alertText: 'Заполните все поля'
+            })
+            return
+        }
         const result = await AuthClient.login(username, password)
         if (!result) {
             setSpinner(false)
             return
         }
-        setSpinner(false)
-        navigate('/costs')
-        setAlert({ alertText: 'Вход выполнен', alertStatus: 'success' });
+        handleAuthResponse(result, 'costs', 'Вход выполнен')
 
 
     }
 
     const handleRegistration = async (username: string, password: string) => {
-        if (!username || !password) { return }
-        const result = await AuthClient.registration(username, password)
+        if (!username || !password) {
+            setSpinner(false)
+            handleAlertMessage({
+                alertStatus: 'warning',
+                alertText: 'Заполните все поля'
+            })
+            return
+        }
 
-        if (!result) {
+
+        if (password.length < 4) {
+            handleAlertMessage({
+                alertText: 'Минимум 6 символов', alertStatus: 'warning'
+            })
             setSpinner(false)
             return
         }
-        setSpinner(false)
-        navigate('/login')
-        setAlert({ alertText: 'Регистрация выполнена', alertStatus: 'success' });
+        const result = await AuthClient.registration(username, password)
+        console.log(result)
+        if (!result) {
+            setSpinner(false)
+            handleAlertMessage({
+                alertText: `Message: ${result} `, alertStatus: 'warning'
+            })
+            return
+        }
 
+        handleAuthResponse(result, 'login', 'Регистрация выполнена')
 
     }
 
@@ -70,7 +108,7 @@ export const Authpage = ({ type }: { type: 'login' | 'registration' }) => {
 
     return (
         <div className="container">
-            <h1>Auth</h1>
+            <h1>{currentAuthTitle}</h1>
             <form
                 onSubmit={handleAuth}
                 className="form-group">
@@ -91,7 +129,8 @@ export const Authpage = ({ type }: { type: 'login' | 'registration' }) => {
                 <button
                     type='submit'
                     className="btn btn-primary auth-btn"
-                >{spinner ? <Spinner top={5} left={2} /> : 'currentAuthTitle'}</button>
+                >{spinner ? <Spinner
+                    top={5} left={50} /> : currentAuthTitle}</button>
             </form>
             {
                 type === 'login' ? (<div>

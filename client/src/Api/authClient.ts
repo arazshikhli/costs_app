@@ -1,32 +1,52 @@
-import { setAuth } from '../context/auth'
+import axios from 'axios'
+import { setAuth, setUsername } from '../context/auth'
 import api from './axiosClient'
-export class AuthClient{
-    static async login(username:string,password:string){
+export class AuthClient {
+    static async login(username: string, password: string) {
         try {
-            const result=await api.post('/auth/login',{username,password})
-            console.log("Result: ",result)
-             if(result.status===200){
+            const result = await api.post('/auth/login', { username, password })
+            console.log("Result: ", result)
+            if (result.status === 200) {
                 setAuth(true)
-                localStorage.setItem('auth',JSON.stringify(result.data));
+                setUsername(result.data)
+                localStorage.setItem('auth', JSON.stringify(result.data));
                 return true
             }
             return false
         } catch (error) {
-           console.log(error) 
+            console.log(error)
         }
     }
 
-    static async registration(username:string,password:string){
+    static async registration(username: string, password: string) {
         try {
-            const result=await api.post('/auth/registration',{username,password})
-            console.log("Result: ",result)
-             if(result.status===201){
+            // await axios.post('/auth/registration', { username, password }).then((response) => {
+            //     const result = response
+            //     if (result.status === 201) {
+            //         setAuth(false)
+            //         return true
+            //     }
+            //     return false
+
+            // }).catch((error) => {
+            //     return false
+            // })
+
+            const result = await api.post('/auth/registration', { username, password })
+
+            console.log("Result: ", result.status)
+            if (result.status === 201) {
                 setAuth(false)
-            return true
+                return true
+            }
+            if (result.status === 404) {
+                setAuth(true)
+
+                return false
             }
             return false
         } catch (error) {
-           console.log(error) 
+            console.log(error)
         }
     }
 }

@@ -18,3 +18,9 @@
 .link:hover {
     text-decoration: none;
 }
+
+.auth-btn {
+    position: relative;
+    min-width: 120px;
+    min-height: 38px;
+}

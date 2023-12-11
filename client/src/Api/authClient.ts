@@ -20,18 +20,6 @@ export class AuthClient {
 
     static async registration(username: string, password: string) {
         try {
-            // await axios.post('/auth/registration', { username, password }).then((response) => {
-            //     const result = response
-            //     if (result.status === 201) {
-            //         setAuth(false)
-            //         return true
-            //     }
-            //     return false
-
-            // }).catch((error) => {
-            //     return false
-            // })
-
             const result = await api.post('/auth/registration', { username, password })
 
             console.log("Result: ", result.status)

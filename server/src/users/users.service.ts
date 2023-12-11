@@ -5,8 +5,6 @@ import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 import { User, UsersDocument } from 'src/schemas/users.schema';
 
-
-
 @Injectable()
 export class UsersService {
     constructor (@InjectModel(User.name) private usersModel:Model<UsersDocument>){

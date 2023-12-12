@@ -36,7 +36,7 @@ try {
                 username
             }
         ))
-        return result.data
+        return result.data.access_token
     }
     else{
         removeUser()

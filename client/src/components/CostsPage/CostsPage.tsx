@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { CostsHeader } from "./Header/CostsHeader"
 import './style.css';
 import { getCostsFx } from '../../Api/costsClient'
@@ -10,10 +10,11 @@ import { CostsList } from "./CostsList";
 export const CostsPage = () => {
 
     const [spinner, setSpinner] = useState(false)
-    const [store, storeFn] = useUnit([$costs, setCosts]);
+    const store = useUnit($costs);
 
 
     useEffect(() => {
+        console.log(store)
         handleGetCosts()
     }, [])
 
@@ -25,6 +26,7 @@ export const CostsPage = () => {
         })
         setSpinner(false)
         setCosts(costs)
+
     }
     return (
 
@@ -36,7 +38,8 @@ export const CostsPage = () => {
             <div style={{ position: 'relative' }}>
                 {spinner && <Spinner top={0} left={0} />}
             </div>
-            {/* <CostsList costs={costs}/> */}
+            {useMemo(() => <CostsList costs={store} />, [store])}
+            {(!spinner && !store.length) && <h2>Список пуст</h2>}
         </div>
     )
 }

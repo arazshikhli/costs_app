@@ -11,7 +11,7 @@ import { getAuthDataFromLS, removeUser } from './utils/auth';
 function App() {
 
   const [isAuth, authFn] = useUnit([$auth, setAuth]);
-  const isLogedIn = false
+
   const [alert, alertFn] = useUnit([$alert, setAlert]);
   
   console.log(isAuth)

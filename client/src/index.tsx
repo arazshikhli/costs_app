@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from 'effector-react';
@@ -8,10 +8,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Router>
-    
-      <App />
-  
 
+    <App />
+   
   </Router>
 
 

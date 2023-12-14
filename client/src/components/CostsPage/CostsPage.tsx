@@ -34,7 +34,7 @@ export const CostsPage = () => {
             <h2
                 style={{ textAlign: 'center', marginBottom: '30px' }}
             >Учет моих расходов</h2>
-            <CostsHeader costs={[]} />
+          {useMemo(()=>  <CostsHeader costs={store}/>,store)}
             <div style={{ position: 'relative' }}>
                 {spinner && <Spinner top={0} left={0} />}
             </div>

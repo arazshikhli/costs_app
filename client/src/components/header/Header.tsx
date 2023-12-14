@@ -6,8 +6,11 @@ import { removeUser } from '../../utils/auth'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IResponseLogin } from "../../types/types";
+import axios from 'axios'
+
 export const Header = () => {
 
+    const [lang,setLang]=useState()
     const { switchTheme, theme } = useTheme()
     const [username, userfn] = useUnit([$username, setUsername]);
     const [name, setName] = useState('')
@@ -17,6 +20,10 @@ export const Header = () => {
         navigate('/login')
 
     }
+    const changeLanguage=(language:string)=>{
+        
+    }
+
 
     return (
         <header
@@ -37,6 +44,11 @@ export const Header = () => {
                     onClick={handleLogout}
                     className="btn btn-light"
                 >Выйти</button>}
+                <div>   <button
+
+                    className="btn btn-danger" style={{ marginRight: '10px' }}>EN</button>
+                    <button className="btn btn-danger"
+                    >AZ</button></div>
             </div>
         </header>
     )

@@ -23,9 +23,7 @@ export class CostsController {
         const costs = await this.costsService.findAll()
 
         const filteredCosts = costs.filter((cost) => cost.userId === user._id.toString())
-
         return res.send(filteredCosts)
-
     }
 
     @UseGuards(JwtGuard)

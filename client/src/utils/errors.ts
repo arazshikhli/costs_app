@@ -1,9 +1,9 @@
 
 import { AxiosError } from 'axios'
-import {IHandleAxiosErrorPayload} from '../types/types'
+import {ICost, IHandleAxiosErrorPayload} from '../types/types'
 import { getAuthDataFromLS, handleAlertMessage } from './auth';
-import { getCostsFx, refreshTokenFx } from '../Api/costsClient';
-import { setCosts } from '../context';
+import { deleteCostsFx, getCostsFx, refreshTokenFx, updateCostFx } from '../Api/costsClient';
+import { setCosts, updateCost } from '../context';
 import { removeUser } from './auth';
 export const handleAxiosError=async(
     error:unknown,
@@ -31,6 +31,28 @@ export const handleAxiosError=async(
                             })
                             setCosts(costs)
                         break;
+                        
+
+                        case 'delete':
+                            await deleteCostsFx({
+                                url:'/costs',
+                                token:authData.access_token,
+                                id:payload.deleteCost?.id as string
+                            })
+                        break;
+                        case 'update':
+                           const updatedCost= await updateCostFx({
+                                url:'/costs',
+                                token:authData.access_token,
+                                cost:{...payloadData.updateCost?.cost} as ICost,
+                                id:payload.updateCost?.id as string
+                            })
+                            if(!updatedCost){
+                               return 
+                            }
+                            updateCost(updatedCost)
+                        break;
+
                     }
                 }
             }

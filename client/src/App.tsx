@@ -8,11 +8,9 @@ import { $alert, setAlert } from './context/alert';
 import { Alert } from './components/Alert/Alert';
 import { CostsPage } from './components/CostsPage/CostsPage';
 import { getAuthDataFromLS, removeUser } from './utils/auth';
-import { useTranslation } from 'react-i18next';
 
 function App() {
 
-  const {t,i18n}=useTranslation()
   const [isAuth, authFn] = useUnit([$auth, setAuth]);
 
   const [alert, alertFn] = useUnit([$alert, setAlert]);

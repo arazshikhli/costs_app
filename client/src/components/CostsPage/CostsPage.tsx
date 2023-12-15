@@ -12,12 +12,6 @@ export const CostsPage = () => {
     const [spinner, setSpinner] = useState(false)
     const store = useUnit($costs);
 
-
-    useEffect(() => {
-        console.log(store)
-        handleGetCosts()
-    }, [])
-
     const handleGetCosts = async () => {
         setSpinner(true);
         const authData = getAuthDataFromLS();
@@ -28,15 +22,20 @@ export const CostsPage = () => {
         setCosts(costs)
 
     }
+
+    useEffect(() => {
+        handleGetCosts()
+        console.log(spinner)
+    })
     return (
 
         <div className="container">
             <h2
                 style={{ textAlign: 'center', marginBottom: '30px' }}
             >Учет моих расходов</h2>
-          {useMemo(()=>  <CostsHeader costs={store}/>,store)}
+            {useMemo(() => <CostsHeader costs={store} />, [store])}
             <div style={{ position: 'relative' }}>
-                {spinner && <Spinner top={0} left={0} />}
+                {/* {spinner && <Spinner top={0} left={0} /> } */}
             </div>
             {useMemo(() => <CostsList costs={store} />, [store])}
             {(!spinner && !store.length) && <h2>Список пуст</h2>}

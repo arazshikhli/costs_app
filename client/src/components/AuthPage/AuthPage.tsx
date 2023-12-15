@@ -3,7 +3,6 @@ import './styles.css';
 import { useState, useRef, MutableRefObject } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { AuthClient } from '../../Api/authClient';
-import { Alert } from '../Alert/Alert'
 import { IAlert } from '../../types/types';
 import { Spinner } from '../Spinner/Spinner';
 import { handleAlertMessage } from '../../utils/auth';

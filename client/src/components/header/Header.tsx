@@ -1,22 +1,20 @@
 import { useUnit } from "effector-react"
 import { useTheme } from "../../hooks"
 import './styles.css';
-import { setUsername, $username, $auth, setAuth } from '../../context/auth'
+import { setUsername, $username } from '../../context/auth'
 import { removeUser } from '../../utils/auth'
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { IResponseLogin } from "../../types/types";
 export const Header = () => {
-
     const { switchTheme, theme } = useTheme()
-    const [username, userfn] = useUnit([$username, setUsername]);
-    const [name, setName] = useState('')
+    const username = useUnit($username);
+    // const [username, userfn] = useUnit([$username, setUsername]);
     const navigate = useNavigate()
     const handleLogout = () => {
         removeUser()
         navigate('/login')
 
     }
+
 
     return (
         <header
@@ -37,6 +35,11 @@ export const Header = () => {
                     onClick={handleLogout}
                     className="btn btn-light"
                 >Выйти</button>}
+                <div>   <button
+
+                    className="btn btn-danger" style={{ marginRight: '10px' }}>EN</button>
+                    <button className="btn btn-danger"
+                    >AZ</button></div>
             </div>
         </header>
     )

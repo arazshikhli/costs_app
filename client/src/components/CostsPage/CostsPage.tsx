@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { CostsHeader } from "./Header/CostsHeader"
 import './style.css';
 import { getCostsFx } from '../../Api/costsClient'
@@ -10,12 +10,7 @@ import { CostsList } from "./CostsList";
 export const CostsPage = () => {
 
     const [spinner, setSpinner] = useState(false)
-    const [store, storeFn] = useUnit([$costs, setCosts]);
-
-
-    useEffect(() => {
-        handleGetCosts()
-    }, [])
+    const store = useUnit($costs);
 
     const handleGetCosts = async () => {
         setSpinner(true);
@@ -25,18 +20,25 @@ export const CostsPage = () => {
         })
         setSpinner(false)
         setCosts(costs)
+
     }
+
+    useEffect(() => {
+        handleGetCosts()
+        console.log(spinner)
+    })
     return (
 
         <div className="container">
             <h2
                 style={{ textAlign: 'center', marginBottom: '30px' }}
             >Учет моих расходов</h2>
-            <CostsHeader costs={[]} />
+            {useMemo(() => <CostsHeader costs={store} />, [store])}
             <div style={{ position: 'relative' }}>
-                {spinner && <Spinner top={0} left={0} />}
+                {/* {spinner && <Spinner top={0} left={0} /> } */}
             </div>
-            {/* <CostsList costs={costs}/> */}
+            {useMemo(() => <CostsList costs={store} />, [store])}
+            {(!spinner && !store.length) && <h2>Список пуст</h2>}
         </div>
     )
 }

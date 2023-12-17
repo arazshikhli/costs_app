@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { setAuth, setUsername } from '../context/auth'
 import api from './axiosClient'
 export class AuthClient {

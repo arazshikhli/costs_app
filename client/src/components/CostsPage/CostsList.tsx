@@ -3,9 +3,9 @@ import { CostItem } from "./CostsItem/CostItem"
 
 export const CostsList=({costs}:{costs:ICost[]})=>{
     return (
-        <ul>
-            {costs.map((cost)=><CostItem
-             cost={cost} index={Number(cost._id)} key={Number(cost._id)}/>)}
+        <ul className="list-group">
+            {costs.map((cost,index)=><CostItem
+             cost={cost} index={index+1} key={index}/>)}
         </ul>
     )
 }

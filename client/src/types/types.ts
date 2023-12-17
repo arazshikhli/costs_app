@@ -46,10 +46,21 @@ export interface IBaseEffectArgs{
 export interface IHandleAxiosErrorPayload{
     type:string;
     createCost?:Partial<IcreateCost>;
-    getCosts?:Partial<IBaseEffectArgs>
+    getCosts?:Partial<IBaseEffectArgs>;
+    deleteCost?:Partial<IDeleteCost>;
+    updateCost?:Partial<IUpdateCost>
 }
 
 export interface ICostsItemProps{
     cost:ICost;
     index:number
+}
+
+export interface IDeleteCost extends IBaseEffectArgs{
+    id:string|number|unknown
+}
+
+export interface IUpdateCost extends IBaseEffectArgs {
+    cost:ICost;
+    id:string|number|unknown
 }
